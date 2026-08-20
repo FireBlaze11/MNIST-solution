@@ -18,3 +18,6 @@ X_dev = data_dev[1:columns] / 255
 data_train = data[1000:rows].T # for the rest of the rows
 Y_train = data_train[0]
 X_train = data_train[1:columns] / 255
+
+def ReLU(x):
+    return np.maximum(0, x)
