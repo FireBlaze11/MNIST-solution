@@ -50,3 +50,10 @@ def update_params(W1, b1, W2, b2, dW1, db1, dW2, db2, alpha):  # this is to twea
     W2 = W2 - alpha * dW2
     b2 = b2 - alpha * db2
     return W1, b1, W2, b2
+
+def get_predictions(A2):
+    return np.argmax(A2, 0)
+
+def get_accuracy(predictions, Y):
+    print(predictions, Y)
+    return np.sum(predictions == Y) / X.size
