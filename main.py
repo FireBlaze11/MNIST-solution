@@ -56,4 +56,4 @@ def get_predictions(A2):
 
 def get_accuracy(predictions, Y):
     print(predictions, Y)
-    return np.sum(predictions == Y) / X.size
+    return np.sum(predictions == Y) / Y.size
