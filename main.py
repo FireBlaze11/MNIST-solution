@@ -69,3 +69,8 @@ def gradient_descent(X, Y, iterations, alpha):
             print(f"Iteration no: {i}")
             print(f"Accuracy: {get_accuracy(get_predictions(A2), Y)}")
     return W1, b1, W2, b2
+
+def make_predictions(X, W1, b1, W2, b2): # prints out the predicted labels after running the network
+    _, _, _, A2 = forward_prop(W1, b1, W2, b2, X)
+    predictions = get_predictions(A2)
+    return predictions
