@@ -21,7 +21,19 @@ X_train = data_train[1:columns] / 255
 
 def ReLU(x):
     return np.maximum(0, x)
+
+def softmax(x):
+    exp_x = np.exp(x - np.max(x, axis=0, keepdims=True))  # stability
+    return exp_x / np.sum(exp_x, axis=0, keepdims=True)
+
+def one_hot(Y):  # to encode the label into a matrix
+    one_hot_Y = np.zeros((Y.size, Y.max() + 1))
+    one_hot_Y[np.arange(Y.size), Y] = 1  # for each row, go to specified Y column and set this to 1
+    return one_hot_Y.T
     
+def deriv_of_ReLU(x): # this works because ReLU graph is this: _|/
+    return np.maximum(0, 1)
+
 def forward_prop(W1, b1, W2, b2, x):
     # matrix multiplication for 2D arrays ONLY
     Z1 = W1.dot(x) + b1
@@ -57,27 +69,6 @@ def get_predictions(A2):
 def get_accuracy(predictions, Y):
     print(predictions, Y)
     return np.sum(predictions == Y) / Y.size
-def test_prediction(index, W1, b1, W2, b2):  
-    current_image = X_train[:, index, None]
-    prediction = make_predictions(X_train[:, index, None], W1, b1, W2, b2) # predicted label
-    label = Y_train[index] # real label
-    print("Prediction: ", prediction)
-    print("Label: ", label)
-
-    current_image = current_image.reshape((28, 28)) * 255
-    plt.gray()
-    plt.imshow(current_image)
-    plt.show()
-
-W1, b1, W2, b2 = gradient_descent(X_train, Y_train, 1000, 0.14)
-
-i = 0
-for i in range(1000):
-    test_prediction(i, W1, b1, W2, b2)
-
-
-#dev_predictions = make_predictions(X_dev, W1, b1, W2, b2)
-#get_accuracy(dev_predictions, Y_dev)   
 
 def gradient_descent(X, Y, iterations, alpha):
     W1, b1, W2, b2 = init_params()
@@ -96,6 +87,7 @@ def make_predictions(X, W1, b1, W2, b2): # prints out the predicted labels after
     predictions = get_predictions(A2)
     return predictions
 
+
 def test_prediction(index, W1, b1, W2, b2):  
     current_image = X_train[:, index, None]
     prediction = make_predictions(X_train[:, index, None], W1, b1, W2, b2) # predicted label
@@ -108,12 +100,12 @@ def test_prediction(index, W1, b1, W2, b2):
     plt.imshow(current_image)
     plt.show()
 
-W1, b1, W2, b2 = gradient_descent(X_train, Y_train, 1000, 0.14)
-
+W1, b1, W2, b2 = gradient_descent(X_train, Y_train, 1001, 0.14)
+ 
 i = 0
-for i in range(1000):
-    test_prediction(i, W1, b1, W2, b2)
+for i in range(10):
+    test_prediction(i, W1, b1, W2, b2)       # displays first 10 examples of labels and predictions, while displaying the image
 
-
+ 
 #dev_predictions = make_predictions(X_dev, W1, b1, W2, b2)
 #get_accuracy(dev_predictions, Y_dev)   
